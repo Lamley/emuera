@@ -31,7 +31,7 @@ namespace MinorShift.Emuera
 		{
 			this.components = new System.ComponentModel.Container();
 			this.timer = new System.Windows.Forms.Timer(this.components);
-			this.vScrollBar = new System.Windows.Forms.VScrollBar();
+			this.ScrollBar = new System.Windows.Forms.VScrollBar();
 			this.menuStrip = new System.Windows.Forms.MenuStrip();
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.rebootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +51,7 @@ namespace MinorShift.Emuera
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.folderSelectDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.TextBox = new System.Windows.Forms.RichTextBox();
 			this.AutoVerbMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.マクロToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.マクロ01ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,16 +99,16 @@ namespace MinorShift.Emuera
 			// 
 			// vScrollBar
 			// 
-			this.vScrollBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.ScrollBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.vScrollBar.Enabled = false;
-			this.vScrollBar.LargeChange = 1;
-			this.vScrollBar.Location = new System.Drawing.Point(640, 24);
-			this.vScrollBar.Maximum = 0;
-			this.vScrollBar.Name = "vScrollBar";
-			this.vScrollBar.Size = new System.Drawing.Size(18, 480);
-			this.vScrollBar.TabIndex = 1;
-			this.vScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
+			this.ScrollBar.Enabled = false;
+			this.ScrollBar.LargeChange = 1;
+			this.ScrollBar.Location = new System.Drawing.Point(640, 24);
+			this.ScrollBar.Maximum = 0;
+			this.ScrollBar.Name = "ScrollBar";
+			this.ScrollBar.Size = new System.Drawing.Size(18, 480);
+			this.ScrollBar.TabIndex = 1;
+			this.ScrollBar.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar_Scroll);
 			// 
 			// menuStrip
 			// 
@@ -262,22 +262,22 @@ namespace MinorShift.Emuera
 			// 
 			// richTextBox1
 			// 
-			this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.richTextBox1.BackColor = System.Drawing.SystemColors.Window;
-			this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.richTextBox1.ContextMenuStrip = this.AutoVerbMenu;
-			this.richTextBox1.DetectUrls = false;
-			this.richTextBox1.Font = new System.Drawing.Font("ＭＳ ゴシック", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-			this.richTextBox1.Location = new System.Drawing.Point(0, 486);
-			this.richTextBox1.MaxLength = 32767;
-			this.richTextBox1.Multiline = false;
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(640, 18);
-			this.richTextBox1.TabIndex = 4;
-			this.richTextBox1.Text = "";
-			this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-			this.richTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
+			this.TextBox.BackColor = System.Drawing.SystemColors.Window;
+			this.TextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.TextBox.ContextMenuStrip = this.AutoVerbMenu;
+			this.TextBox.DetectUrls = false;
+			this.TextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+			this.TextBox.Location = new System.Drawing.Point(0, 486);
+			this.TextBox.MaxLength = 32767;
+			this.TextBox.Multiline = false;
+			this.TextBox.Name = "TextBox";
+			this.TextBox.Size = new System.Drawing.Size(640, 18);
+			this.TextBox.TabIndex = 4;
+			this.TextBox.Text = "";
+			this.TextBox.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+			this.TextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.richTextBox1_KeyDown);
 			// 
 			// AutoVerbMenu
 			// 
@@ -590,8 +590,8 @@ namespace MinorShift.Emuera
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(657, 504);
-			this.Controls.Add(this.richTextBox1);
-			this.Controls.Add(this.vScrollBar);
+			this.Controls.Add(this.TextBox);
+			this.Controls.Add(this.ScrollBar);
 			this.Controls.Add(this.labelMacroGroupChanged);
 			this.Controls.Add(this.mainPicBox);
 			this.Controls.Add(this.menuStrip);
@@ -614,8 +614,7 @@ namespace MinorShift.Emuera
 		#endregion
 
 		private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.VScrollBar vScrollBar;
-		private System.Windows.Forms.MenuStrip menuStrip;
+	    private System.Windows.Forms.MenuStrip menuStrip;
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem rebootToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
@@ -631,8 +630,7 @@ namespace MinorShift.Emuera
         private System.Windows.Forms.ToolStripMenuItem ファイルを読み直すFToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem フォルダを読み直すFToolStripMenuItem;
 		private System.Windows.Forms.FolderBrowserDialog folderSelectDialog;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.ToolStripMenuItem デバッグToolStripMenuItem;
+	    private System.Windows.Forms.ToolStripMenuItem デバッグToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem デバッグウインドウを開くToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem デバッグ情報の更新ToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip AutoVerbMenu;

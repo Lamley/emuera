@@ -1,170 +1,157 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace MinorShift.Emuera.Sub
 {
-	/// <summary>
-	/// 文字列を1文字ずつ評価するためのクラス
-	/// </summary>
-	internal sealed class StringStream
-	{
-		public StringStream(string s)
-		{
-			source = s;
-			if (source == null)
-				source = "";
-			pointer = 0;
-		}
+    /// <summary>
+    ///     文字列を1文字ずつ評価するためのクラス
+    /// </summary>
+    internal sealed class StringStream
+    {
+        public const char EndOfString = '\0';
 
-		string source;
-		public const char EndOfString = '\0';
-		int pointer;
-		public string RowString
-		{
-			get
-			{
-				return source;
-			}
-		}
+        public StringStream(string s)
+        {
+            RowString = s;
+            if (RowString == null)
+                RowString = "";
+            CurrentPosition = 0;
+        }
 
-		public int CurrentPosition
-		{
-			get { return pointer; }
-			set { pointer = value; }
-		}
-		public char Current
-		{
-			get
-			{
-				if (pointer >= source.Length)
-					return EndOfString;
-				return source[pointer];
-			}
-		}
-		
-		public void AppendString(string str)
-		{
-			if (pointer > source.Length)
-				pointer = source.Length;
-			source += " " + str;
-		}
-		
-		/// <summary>
-		/// 文字列終端に達した
-		/// </summary>
-		public bool EOS { get { return pointer >= source.Length; } }
+        public string RowString { get; private set; }
 
-		///変数の区切りである"[["と"]]"の先読みなどに使用
-		public char Next
-		{
-			get
-			{
-				if (pointer + 1 >= source.Length)
-					return EndOfString;
-				return source[pointer + 1];
-			}
-		}
+        public int CurrentPosition { get; set; }
 
-		public string Substring()
-		{
-			if (pointer >= source.Length)
-				return "";
-			else if (pointer == 0)
-				return source;
-			return source.Substring(pointer);
-		}
+        public char Current
+        {
+            get
+            {
+                if (CurrentPosition >= RowString.Length)
+                    return EndOfString;
+                return RowString[CurrentPosition];
+            }
+        }
 
-		public string Substring(int start, int length)
-		{
-			if (start >= source.Length || length == 0)
-				return "";
-			if (start + length > source.Length)
-				length = source.Length - start;
-			return source.Substring(start, length);
-		}
+        /// <summary>
+        ///     文字列終端に達した
+        /// </summary>
+        public bool EOS => CurrentPosition >= RowString.Length;
 
-		internal void Replace(int start, int count, string src)
-		{
-			//引数に正しい数字が送られてくること前提
-			source = (source.Remove(start, count)).Insert(start, src);
-			pointer = start;
-		}
+        ///変数の区切りである"[["と"]]"の先読みなどに使用
+        public char Next
+        {
+            get
+            {
+                if (CurrentPosition + 1 >= RowString.Length)
+                    return EndOfString;
+                return RowString[CurrentPosition + 1];
+            }
+        }
 
-		public void ShiftNext()
-		{
-			pointer++;
-		}
+        public void AppendString(string str)
+        {
+            if (CurrentPosition > RowString.Length)
+                CurrentPosition = RowString.Length;
+            RowString += " " + str;
+        }
+
+        public string Substring()
+        {
+            if (CurrentPosition >= RowString.Length)
+                return "";
+            if (CurrentPosition == 0)
+                return RowString;
+            return RowString.Substring(CurrentPosition);
+        }
+
+        public string Substring(int start, int length)
+        {
+            if (start >= RowString.Length || length == 0)
+                return "";
+            if (start + length > RowString.Length)
+                length = RowString.Length - start;
+            return RowString.Substring(start, length);
+        }
+
+        internal void Replace(int start, int count, string src)
+        {
+            //引数に正しい数字が送られてくること前提
+            RowString = RowString.Remove(start, count).Insert(start, src);
+            CurrentPosition = start;
+        }
+
+        public void ShiftNext()
+        {
+            CurrentPosition++;
+        }
 
         public void Jump(int skip)
         {
-            pointer += skip;
+            CurrentPosition += skip;
         }
 
-		/// <summary>
-		/// 検索文字列の相対位置を返す。見つからない場合、負の値。
-		/// </summary>
-		/// <param name="str"></param>
-		public int Find(string str)
-		{
-			return source.IndexOf(str, pointer) - pointer;
-		}
+        /// <summary>
+        ///     検索文字列の相対位置を返す。見つからない場合、負の値。
+        /// </summary>
+        /// <param name="str"></param>
+        public int Find(string str)
+        {
+            return RowString.IndexOf(str, CurrentPosition) - CurrentPosition;
+        }
 
-		/// <summary>
-		/// 検索文字列の相対位置を返す。見つからない場合、負の値。
-		/// </summary>
-		public int Find(char c)
-		{
-			return source.IndexOf(c, pointer) - pointer;
-		}
+        /// <summary>
+        ///     検索文字列の相対位置を返す。見つからない場合、負の値。
+        /// </summary>
+        public int Find(char c)
+        {
+            return RowString.IndexOf(c, CurrentPosition) - CurrentPosition;
+        }
 
-		public override string ToString()
-		{
-			if (source == null)
-				return "";
-			return source;
-		}
+        public override string ToString()
+        {
+            if (RowString == null)
+                return "";
+            return RowString;
+        }
 
-		public bool CurrentEqualTo(string rother)
-		{
-			if (pointer + rother.Length > source.Length)
-				return false;
+        public bool CurrentEqualTo(string rother)
+        {
+            if (CurrentPosition + rother.Length > RowString.Length)
+                return false;
 
-			for (int i = 0;  i < rother.Length;i++)
-			{
-				if (source[pointer + i] != rother[i])
-					return false;
-			}
-			return true;
-		}
+            for (var i = 0; i < rother.Length; i++)
+                if (RowString[CurrentPosition + i] != rother[i])
+                    return false;
+            return true;
+        }
 
-		public bool TripleSymbol()
-		{
-			if (pointer + 3 > source.Length)
-				return false;
-			return (source[pointer] == source[pointer + 1]) && (source[pointer] == source[pointer + 2]);
-		}
+        public bool TripleSymbol()
+        {
+            if (CurrentPosition + 3 > RowString.Length)
+                return false;
+            return RowString[CurrentPosition] == RowString[CurrentPosition + 1] &&
+                   RowString[CurrentPosition] == RowString[CurrentPosition + 2];
+        }
 
 
-		public bool CurrentEqualTo(string rother, StringComparison comp)
-		{
-			if (pointer + rother.Length > source.Length)
-				return false;
-			string sub = source.Substring(pointer, rother.Length);
-			return sub.Equals(rother, comp);
-		}
+        public bool CurrentEqualTo(string rother, StringComparison comp)
+        {
+            if (CurrentPosition + rother.Length > RowString.Length)
+                return false;
+            var sub = RowString.Substring(CurrentPosition, rother.Length);
+            return sub.Equals(rother, comp);
+        }
 
-		public void Seek(int offset, SeekOrigin origin)
-		{
-			if (origin == SeekOrigin.Begin)
-				pointer = offset;
-			else if (origin == SeekOrigin.Current)
-				pointer = pointer + offset;
-			else if (origin == SeekOrigin.End)
-				pointer = source.Length + offset;
-			if (pointer < 0)
-				pointer = 0;
-		}
-	}
+        public void Seek(int offset, SeekOrigin origin)
+        {
+            if (origin == SeekOrigin.Begin)
+                CurrentPosition = offset;
+            else if (origin == SeekOrigin.Current)
+                CurrentPosition = CurrentPosition + offset;
+            else if (origin == SeekOrigin.End)
+                CurrentPosition = RowString.Length + offset;
+            if (CurrentPosition < 0)
+                CurrentPosition = 0;
+        }
+    }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MinorShift.Emuera.Content
+﻿namespace MinorShift.Emuera.Content
 {
-	abstract class AContentItem
-	{
-		protected AContentItem(string name) { Name = name; }
-		public readonly string Name;
-		public bool Enabled = false;
-	}
+    internal abstract class AContentItem
+    {
+        public readonly string Name;
+        public bool Enabled = false;
+
+        protected AContentItem(string name)
+        {
+            Name = name;
+        }
+    }
 }

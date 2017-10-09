@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using MinorShift.Emuera.GameView;
@@ -16,7 +12,7 @@ namespace MinorShift.Emuera.Forms
             InitializeComponent();
             if (textBox1.Width != Config.WindowX)
             {
-                this.ClientSize = new Size(Config.WindowX, 480);
+                ClientSize = new Size(Config.WindowX, 480);
                 textBox1.Width = Config.WindowX;
             }
             textBox1.Font = Config.Font;
@@ -24,7 +20,7 @@ namespace MinorShift.Emuera.Forms
 
         public void Setup(MainWindow mainWindow, EmueraConsole console)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             console.GetDisplayStrings(builder);
             textBox1.Text = builder.ToString();
         }

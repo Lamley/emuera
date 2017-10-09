@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace MinorShift._Library
 {
     //マルチ言語に対応可能な形式に変更
     internal static class LangManager
     {
-        static Encoding lang;
+        private static Encoding lang;
 
         public static void setEncode(int code)
         {
@@ -18,16 +16,17 @@ namespace MinorShift._Library
         {
             return lang.GetByteCount(str);
         }
+
         public static int GetUFTIndex(string str, int LangIndex)
         {
             if (LangIndex <= 0)
                 return 0;
-            int totalByte = GetStrlenLang(str);
+            var totalByte = GetStrlenLang(str);
             if (LangIndex >= totalByte)
                 return str.Length;
-            int UTFcnt = 0;
-            int JIScnt = 0;
-            for (int i = 0; i < str.Length; i++)
+            var UTFcnt = 0;
+            var JIScnt = 0;
+            for (var i = 0; i < str.Length; i++)
             {
                 JIScnt += lang.GetByteCount(str[UTFcnt].ToString());
                 UTFcnt++;
@@ -39,15 +38,15 @@ namespace MinorShift._Library
 
         public static string GetSubStringLang(string str, int startindex, int length)
         {
-            int totalByte = GetStrlenLang(str);
-            if ((startindex >= totalByte) || (length == 0))
+            var totalByte = GetStrlenLang(str);
+            if (startindex >= totalByte || length == 0)
                 return "";
-            if ((length < 0) || (length > totalByte))
+            if (length < 0 || length > totalByte)
                 length = totalByte;
 
-            StringBuilder ret = new StringBuilder();
-            int UTFcnt = 0;
-            int JIScnt = 0;
+            var ret = new StringBuilder();
+            var UTFcnt = 0;
+            var JIScnt = 0;
 
             if (startindex <= 0)
             {
@@ -56,7 +55,7 @@ namespace MinorShift._Library
             }
             else
             {
-                for (int i = 0; i < str.Length; i++)
+                for (var i = 0; i < str.Length; i++)
                 {
                     JIScnt += lang.GetByteCount(str[UTFcnt].ToString());
                     UTFcnt++;
